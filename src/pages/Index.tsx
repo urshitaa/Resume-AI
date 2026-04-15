@@ -12,7 +12,7 @@ const features = [
   { icon: Sparkles, title: "AI Resume Improvement", desc: "Enhance your resume with AI-powered suggestions." },
   { icon: MessageSquare, title: "Career AI Chatbot", desc: "Context-aware assistant for career guidance and tips." },
   { icon: Download, title: "PDF Generation", desc: "Generate polished resumes and download instantly." },
-  { icon: Shield, title: "Gemini & Grok Models", desc: "Switch between AI providers for best results." },
+  { icon: Shield, title: "Fast and Secure", desc: "Both Fast and Secure for the best results." },
 ];
 
 const LandingPage = () => (
@@ -76,7 +76,7 @@ const LandingPage = () => (
 
     <footer className="border-t border-border py-8">
       <div className="container text-center text-sm text-muted-foreground">
-        <p>© {new Date().getFullYear()} ResumeAI. Built for job seekers who mean business.</p>
+        <p>© 2026 ResumeAI. Built by Urshitaa and Sahil </p>
       </div>
     </footer>
   </div>
