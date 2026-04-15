@@ -28,12 +28,16 @@ const UploadDropzone = ({ onFileAccepted, acceptedFile, isUploading }: UploadDro
     maxSize: 10 * 1024 * 1024,
   });
 
+  const rootProps = getRootProps();
+
   return (
     <motion.div
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.99 }}
-      {...getRootProps()}
-      className={cn(
+    >
+      <div
+        {...rootProps}
+        className={cn(
         "relative cursor-pointer rounded-xl border-2 border-dashed p-10 text-center transition-all duration-300",
         isDragActive
           ? "border-primary bg-primary/5"
