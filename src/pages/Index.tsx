@@ -4,6 +4,7 @@ import { ArrowRight, FileText, BarChart3, MessageSquare, Sparkles, Download, Shi
 import GradientButton from "@/components/GradientButton";
 import GlassCard from "@/components/GlassCard";
 import Navbar from "@/components/Navbar";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const features = [
   { icon: FileText, title: "Smart Resume Parsing", desc: "Upload PDF or DOCX and instantly extract structured content." },
@@ -18,7 +19,8 @@ const LandingPage = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
 
-    <section className="container py-20 text-center">
+    <section className="relative overflow-hidden container py-20 text-center">
+      <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 dark:opacity-20 pointer-events-none" width={1920} height={1080} />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
