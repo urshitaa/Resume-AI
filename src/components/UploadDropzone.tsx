@@ -65,6 +65,7 @@ const UploadDropzone = ({ onFileAccepted, acceptedFile, isUploading }: UploadDro
           </p>
         </div>
       </div>
+      </div>
     </motion.div>
   );
 };
