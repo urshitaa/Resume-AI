@@ -1,17 +1,27 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = ("http://127.0.0.1:8000").replace(/\/+$/, "");
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers: {
-      ...options?.headers,
-    },
-  });
-  if (!res.ok) {
-    const error = await res.json().catch(() => ({ detail: res.statusText }));
-    throw new Error(error.detail || "Request failed");
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      headers: {
+        ...options?.headers,
+      },
+      mode: "cors",
+    });
+
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ detail: res.statusText }));
+      throw new Error(error.detail || `Request failed with status ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Network request failed: ${error.message}`);
+    }
+    throw new Error("Network request failed.");
   }
-  return res.json();
 }
 
 export interface ATSResult {
@@ -41,7 +51,7 @@ export const api = {
   uploadResume: async (file: File): Promise<{ text: string; filename: string }> => {
     const formData = new FormData();
     formData.append("file", file);
-    return request("/api/resume/upload", { method: "POST", body: formData });
+    return request("/api/resume/improve", { method: "POST", body: formData });
   },
 
   analyzeATS: (resumeText: string, jobDescription: string): Promise<ATSResult> =>

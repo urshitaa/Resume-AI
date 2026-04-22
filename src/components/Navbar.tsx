@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { FileText, MessageSquare, BarChart3, History, Sun, Moon, Menu, X } from "lucide-react";
+import { FileText, MessageSquare, BarChart3, History, Sun, Moon, Menu, X, LogIn, UserPlus } from "lucide-react";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: BarChart3 },
@@ -49,6 +49,22 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2 mr-2">
+            <Link
+              to="/login"
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <LogIn className="h-4 w-4" />
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+            >
+              <UserPlus className="h-4 w-4" />
+              Sign Up
+            </Link>
+          </div>
           <button
             onClick={() => setDark(!dark)}
             className="rounded-lg p-2 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
@@ -82,6 +98,23 @@ const Navbar = () => {
               {label}
             </Link>
           ))}
+          <div className="h-px bg-border my-2" />
+          <Link
+            to="/login"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <LogIn className="h-4 w-4" />
+            Login
+          </Link>
+          <Link
+            to="/signup"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+          >
+            <UserPlus className="h-4 w-4" />
+            Sign Up
+          </Link>
         </div>
       )}
     </nav>

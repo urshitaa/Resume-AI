@@ -9,6 +9,8 @@ import ChatPage from "./pages/ChatPage";
 import ResumeEditor from "./pages/ResumeEditor";
 import HistoryPage from "./pages/HistoryPage";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/editor" element={<ResumeEditor />} />
           <Route path="/history" element={<HistoryPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
