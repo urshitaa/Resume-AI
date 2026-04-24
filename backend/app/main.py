@@ -4,6 +4,9 @@ ResumeAI — FastAPI entry point
 import os
 import logging
 from contextlib import asynccontextmanager
+ 
+from dotenv import load_dotenv
+load_dotenv()
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,6 +27,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+print("GEMINI_API_KEY exists:", bool(os.getenv("GEMINI_API_KEY")))
+print("LLM_PROVIDER:", os.getenv("LLM_PROVIDER"))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -65,11 +70,16 @@ def create_app() -> FastAPI:
     logger.info("Configuring CORS for origins: %s", cors_origins)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=cors_origins,
+        allow_origins=[
+            "http://localhost:8080",
+            "http://127.0.0.1:8080",
+        ],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    
+ 
 
     Base.metadata.create_all(bind=engine)
 
@@ -87,19 +97,21 @@ def create_app() -> FastAPI:
                 "version": settings.app_version,
                 "database": "connected" if db_ok else "unreachable",
             },
-        )
+        )    
 
     from app.routers.auth import router as auth_router
     from app.routers.resume import router as resume_router
     from app.routers.job import router as job_router
     from app.routers.ats import router as ats_router
     from app.routers.chat import router as chat_router
+    from app.routers.history import router as history_router
 
     app.include_router(auth_router)
     app.include_router(resume_router)
     app.include_router(job_router)
     app.include_router(ats_router)
     app.include_router(chat_router)
+    app.include_router(history_router)
 
     return app
 

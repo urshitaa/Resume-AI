@@ -10,10 +10,10 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER
 GENERATED_DIR = "generated"
 os.makedirs(GENERATED_DIR, exist_ok=True)
 
-COLOR_PRIMARY = HexColor("#1a1a2e")
-COLOR_ACCENT  = HexColor("#0f3460")
-COLOR_MUTED   = HexColor("#666666")
-COLOR_RULE    = HexColor("#cccccc")
+COLOR_PRIMARY = HexColor("#000000")
+COLOR_ACCENT  = HexColor("#2c3e50")
+COLOR_MUTED   = HexColor("#555555")
+COLOR_RULE    = HexColor("#bdc3c7")
 
 SECTION_KEYWORDS = {
     "experience", "education", "skills", "summary", "objective",
@@ -25,29 +25,29 @@ SECTION_KEYWORDS = {
 
 
 def _style_name() -> ParagraphStyle:
-    return ParagraphStyle("_Name", fontSize=22, leading=28, fontName="Helvetica-Bold",
-                          textColor=COLOR_PRIMARY, alignment=TA_CENTER, spaceAfter=2)
+    return ParagraphStyle("_Name", fontSize=24, leading=28, fontName="Helvetica-Bold",
+                          textColor=COLOR_PRIMARY, alignment=TA_CENTER, spaceAfter=4)
 
 def _style_contact() -> ParagraphStyle:
-    return ParagraphStyle("_Contact", fontSize=9, leading=13, fontName="Helvetica",
-                          textColor=COLOR_MUTED, alignment=TA_CENTER, spaceAfter=4)
+    return ParagraphStyle("_Contact", fontSize=10, leading=14, fontName="Helvetica",
+                          textColor=COLOR_MUTED, alignment=TA_CENTER, spaceAfter=12)
 
 def _style_section() -> ParagraphStyle:
-    return ParagraphStyle("_Section", fontSize=11, leading=16, fontName="Helvetica-Bold",
-                          textColor=COLOR_ACCENT, alignment=TA_LEFT, spaceBefore=8, spaceAfter=2)
+    return ParagraphStyle("_Section", fontSize=12, leading=16, fontName="Helvetica-Bold",
+                          textColor=COLOR_ACCENT, alignment=TA_LEFT, spaceBefore=12, spaceAfter=4, textTransform="uppercase")
 
 def _style_subheading() -> ParagraphStyle:
-    return ParagraphStyle("_Sub", fontSize=10, leading=14, fontName="Helvetica-Bold",
-                          textColor=COLOR_PRIMARY, alignment=TA_LEFT, spaceAfter=1)
+    return ParagraphStyle("_Sub", fontSize=11, leading=15, fontName="Helvetica-Bold",
+                          textColor=COLOR_PRIMARY, alignment=TA_LEFT, spaceBefore=6, spaceAfter=2)
 
 def _style_body() -> ParagraphStyle:
-    return ParagraphStyle("_Body", fontSize=10, leading=15, fontName="Helvetica",
-                          textColor=COLOR_PRIMARY, alignment=TA_LEFT, spaceAfter=2)
+    return ParagraphStyle("_Body", fontSize=10, leading=14, fontName="Helvetica",
+                          textColor=COLOR_PRIMARY, alignment=TA_LEFT, spaceAfter=3)
 
 def _style_bullet() -> ParagraphStyle:
-    return ParagraphStyle("_Bullet", fontSize=10, leading=15, fontName="Helvetica",
+    return ParagraphStyle("_Bullet", fontSize=10, leading=14, fontName="Helvetica",
                           textColor=COLOR_PRIMARY, alignment=TA_LEFT,
-                          leftIndent=16, firstLineIndent=-10, spaceAfter=2)
+                          leftIndent=15, firstLineIndent=-10, spaceAfter=3)
 
 
 def _is_section_header(line: str) -> bool:
@@ -93,10 +93,10 @@ def build_resume_pdf(resume_text: str) -> str:
     doc = SimpleDocTemplate(
         filepath,
         pagesize=LETTER,
-        leftMargin=0.85 * inch,
-        rightMargin=0.85 * inch,
-        topMargin=0.75 * inch,
-        bottomMargin=0.75 * inch,
+        leftMargin=0.5 * inch,
+        rightMargin=0.5 * inch,
+        topMargin=0.5 * inch,
+        bottomMargin=0.5 * inch,
     )
 
     s_name    = _style_name()

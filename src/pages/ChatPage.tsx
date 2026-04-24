@@ -18,9 +18,17 @@ const ChatPage = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const send = async () => {
-    if (!input.trim() || loading) return;
-    const userMsg: ChatMessage = { role: "user", content: input };
+  const quickPrompts = [
+    "Improve my resume",
+    "What skills should I learn?",
+    "Give me interview questions"
+  ];
+
+  const send = async (overrideInput?: string) => {
+    const textToSend = overrideInput || input;
+    if (!textToSend.trim() || loading) return;
+    
+    const userMsg: ChatMessage = { role: "user", content: textToSend };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
@@ -85,12 +93,25 @@ const ChatPage = () => {
                 className="flex-1 rounded-lg border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
               />
               <button
-                onClick={send}
+                onClick={() => send()}
                 disabled={loading || !input.trim()}
                 className="gradient-bg rounded-lg p-3 text-primary-foreground transition-all hover:shadow-lg disabled:opacity-50"
               >
                 <Send className="h-5 w-5" />
               </button>
+            </div>
+            
+            <div className="flex flex-wrap gap-2 mt-3">
+              {quickPrompts.map((prompt) => (
+                <button
+                  key={prompt}
+                  onClick={() => send(prompt)}
+                  disabled={loading}
+                  className="px-3 py-1.5 text-xs font-medium rounded-full bg-secondary/50 text-secondary-foreground hover:bg-primary/10 hover:text-primary transition-colors border border-border disabled:opacity-50"
+                >
+                  {prompt}
+                </button>
+              ))}
             </div>
           </div>
         </GlassCard>

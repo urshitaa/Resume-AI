@@ -65,8 +65,24 @@ def _clean_text(raw: str) -> str:
 
 
 def scrape_job_description(url: str) -> str:
-    html = _fetch_html(url)
+    # First, try using Jina Reader API which renders JS and bypasses basic anti-bot screens
+    jina_url = f"https://r.jina.ai/{url}"
+    jina_headers = {
+        "User-Agent": HEADERS["User-Agent"],
+        "Accept": "text/plain"
+    }
+    try:
+        response = requests.get(jina_url, headers=jina_headers, timeout=15)
+        response.raise_for_status()
+        text = response.text
+        # Jina returns markdown. If the text seems decent, use it.
+        if len(text) > 100:
+            return _clean_text(text)
+    except Exception as e:
+        logger.warning(f"Jina scrape failed, falling back to direct request: {str(e)}")
 
+    # Fallback to direct HTML fetching
+    html = _fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
 
     for tag in soup.find_all(REMOVE_TAGS):

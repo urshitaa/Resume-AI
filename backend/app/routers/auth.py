@@ -9,7 +9,7 @@ from app.models.user import User
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
-
+        
 @router.post("/signup", response_model=TokenResponse, status_code=201)
 def signup(payload: SignupRequest, db: Session = Depends(get_db)):
     return signup_user(payload, db)

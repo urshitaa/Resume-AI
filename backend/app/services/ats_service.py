@@ -3,7 +3,7 @@ from typing import Any
 
 import spacy
 from sentence_transformers import SentenceTransformer, util
-
+ 
 # ---------------------------------------------------------------------------
 # Model loading (module-level, loaded once on startup)
 # ---------------------------------------------------------------------------
@@ -195,39 +195,17 @@ def compute_ats_score(resume_text: str, job_text: str) -> dict[str, Any]:
 
     return {
         "ats_score": int(round(ats_score)),
-        "results_json": {
-            "breakdown": {
-                "semantic_similarity": {
-                    "score": semantic,
-                    "weight": "40%",
-                },
-                "skills_match": {
-                    "score": skills_score,
-                    "weight": "25%",
-                    "matched_skills": matched_skills,
-                    "missing_skills": missing_skills,
-                },
-                "keyword_match": {
-                    "score": keyword_score,
-                    "weight": "15%",
-                    "matched_keywords": matched_keywords,
-                },
-                "experience_match": {
-                    "score": experience_score,
-                    "weight": "10%",
-                },
-                "formatting_quality": {
-                    "score": formatting_score,
-                    "weight": "10%",
-                },
-            },
-            "summary": {
-                "total_score": int(round(ats_score)),
-                "matched_skills_count": len(matched_skills),
-                "missing_skills_count": len(missing_skills),
-                "recommendation": _recommendation(int(round(ats_score))),
-            },
+        "matched_skills": matched_skills,
+        "missing_skills": missing_skills,
+        "section_scores": {
+            "semantic": semantic,
+            "skills": skills_score,
+            "keywords": keyword_score,
+            "experience": experience_score,
+            "formatting": formatting_score,
         },
+        "suggestions": ["Consider adding missing skills: " + ", ".join(missing_skills[:5])] if missing_skills else ["Great job! Your skills match well."],
+        "explanation": _recommendation(int(round(ats_score))),
     }
 
 

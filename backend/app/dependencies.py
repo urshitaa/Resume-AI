@@ -7,7 +7,7 @@ from app.utils.security import decode_access_token
 from app.models.user import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
-
+       
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
     if not token:
@@ -41,5 +41,4 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
             detail="User not found.",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
     return user

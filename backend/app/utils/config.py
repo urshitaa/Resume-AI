@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     db_host: str = "localhost"
     db_port: int = 3306
     db_user: str = "root"
-    db_password: str = "1627"
+    db_password: str = "1670"
     db_name: str = "resumeai"
 
     # ── LLMs ─────────────────────────────────────────────────────────────────
@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     max_upload_size_mb: int = 10
 
     # ── CORS ─────────────────────────────────────────────────────────────────
-    allowed_origins: str = "http://localhost:3000,http://localhost:5173,http://localhost:8081"
+    allowed_origins: str = "http://localhost:8080"
 
     model_config = SettingsConfigDict(
         env_file=".env",
