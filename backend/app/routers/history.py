@@ -15,6 +15,7 @@ class ResumeVersionResponse(BaseModel):
     id: int
     filename: str
     created_at: str
+    improved_text: str | None = None
 
     class Config:
         from_attributes = True
@@ -41,7 +42,8 @@ def get_resume_versions(
         result.append({
             "id": v.id,
             "filename": f"Version {v.id}",
-            "created_at": v.created_at.isoformat()
+            "created_at": v.created_at.isoformat(),
+            "improved_text": v.improved_text
         })
     return result
 

@@ -148,7 +148,7 @@ import requests
 from typing import Optional
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
 
 import google.generativeai as genai
 
@@ -168,7 +168,7 @@ HUGGINGFACE_API_KEY = os.getenv("HF_TOKEN", "")
 GROK_API_URL = "https://api.x.ai/v1/chat/completions"
 GROK_MODEL = "grok-2-latest"
 
-GEMINI_MODEL = "gemini-flash-latest"
+GEMINI_MODEL = "gemini-2.5-flash"
 
 MAX_RETRIES = 2
 RETRY_DELAY = 2
@@ -179,18 +179,20 @@ REQUEST_TIMEOUT = 30
 # GEMINI (UPDATED SDK)
 # =========================
 def _generate_gemini(prompt: str) -> str:
-    if not GEMINI_API_KEY:
+    # Refresh API key from env in case it changed
+    api_key = os.getenv("GEMINI_API_KEY", "")
+    if not api_key:
         raise ValueError("GEMINI_API_KEY is not set.")
 
-    genai.configure(api_key=GEMINI_API_KEY)
+    genai.configure(api_key=api_key)
     model = genai.GenerativeModel(GEMINI_MODEL)
-
+    print("Gemini model outside :😂😂😂😂😂😂 " ,model)
     last_exc: Optional[Exception] = None
 
     for attempt in range(MAX_RETRIES + 1):
         try:
             response = model.generate_content(prompt)
-            print("Gemini response: " ,response)
+            print("Gemini response:😂😂😂😂😂😂 " ,response)
             text = response.text
 
             if not text:
@@ -346,7 +348,7 @@ def generate_response(prompt: str) -> str:
         try:
             return _generate_gemini(prompt)
         except Exception as e:
-            return f"⚠️ **API Error:** The Gemini API key has either exceeded its quota or does not have access to this model. Please check your Google AI Studio billing/plan."
+            return f"⚠️ **API Error:** The Gemini API key has either exceeded its quota or does not have access to this model. Please check your Google AI Studio billing/plan." + "\nError: " + str(e)
 
     elif LLM_PROVIDER == "grok":
         try:

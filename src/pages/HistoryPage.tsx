@@ -4,10 +4,12 @@ import { Clock, FileText } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import GlassCard from "@/components/GlassCard";
 import { api, type ResumeVersion } from "@/lib/api";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const HistoryPage = () => {
   const [versions, setVersions] = useState<ResumeVersion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedVersion, setSelectedVersion] = useState<ResumeVersion | null>(null);
 
   useEffect(() => {
     api
@@ -49,7 +51,8 @@ const HistoryPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
               >
-                <GlassCard hover className="flex items-center justify-between">
+                <div onClick={() => setSelectedVersion(v)} className="cursor-pointer block">
+                  <GlassCard hover className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="gradient-bg flex h-10 w-10 items-center justify-center rounded-lg">
                       <FileText className="h-5 w-5 text-primary-foreground" />
@@ -66,11 +69,26 @@ const HistoryPage = () => {
                     </div>
                   )}
                 </GlassCard>
+                </div>
               </motion.div>
             ))}
           </div>
         )}
       </main>
+
+      <Dialog open={!!selectedVersion} onOpenChange={(open) => !open && setSelectedVersion(null)}>
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">{selectedVersion?.filename}</DialogTitle>
+            <p className="text-sm text-muted-foreground">{selectedVersion ? new Date(selectedVersion.created_at).toLocaleString() : ""}</p>
+          </DialogHeader>
+          <div className="flex-1 overflow-y-auto mt-4 pr-2 custom-scrollbar">
+            <pre className="whitespace-pre-wrap text-sm font-mono text-foreground bg-muted p-6 rounded-lg border border-border shadow-inner">
+              {selectedVersion?.improved_text || "No text available for this version."}
+            </pre>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

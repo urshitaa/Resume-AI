@@ -49,6 +49,8 @@ export interface ResumeVersion {
   id: number;
   filename: string;
   created_at: string;
+  improved_text?: string;
+  ats_score?: number;
 }
 
 export interface AnalysisHistory {
@@ -62,6 +64,14 @@ export interface SimilarJob {
   company?: string;
   details: string;
   url?: string;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  rating: int;
+  feedback: string;
+  created_at: string;
 }
 
 export const api = {
@@ -148,4 +158,14 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ resume_id: resumeId, improved_text: improvedText }),
     }),
+
+  submitTestimonial: (data: { name: string; email: string; rating: number; feedback: string }): Promise<Testimonial> =>
+    request("/api/testimonials", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }),
+
+  getTestimonials: (): Promise<Testimonial[]> =>
+    request("/api/testimonials"),
 };

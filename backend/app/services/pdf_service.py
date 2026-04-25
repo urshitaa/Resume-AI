@@ -9,7 +9,7 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER
 
 GENERATED_DIR = "generated"
 os.makedirs(GENERATED_DIR, exist_ok=True)
-
+    
 COLOR_PRIMARY = HexColor("#000000")
 COLOR_ACCENT  = HexColor("#2c3e50")
 COLOR_MUTED   = HexColor("#555555")

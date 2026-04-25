@@ -1,8 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FileText, Mail, ArrowUp } from "lucide-react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
-
+import darklogo from "@/assets/sorry_something_went_wrong.png";
+import lightlogo from "@/assets/Icon1.png";
 const Footer = () => {
+    const dark = localStorage.getItem("theme") === "dark";
 
 
 
@@ -12,12 +14,11 @@ const Footer = () => {
             <div className="container">
                 <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8 mb-12">
                     {/* Brand Section */}
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                            <div className="gradient-bg flex h-8 w-8 items-center justify-center rounded-lg">
-                                <FileText className="h-5 w-5 text-primary-foreground" />
-                            </div>
-                            <span className="font-heading text-xl font-bold tracking-tight">ResumeAI</span>
+                    <div className="">
+                        <div >
+                            {
+                                dark ? <img src="./sorry_something_went_wrong.png" alt="logo" className=" h-32" /> : <img src="./Icon1.png" alt="logo" className=" h-32" />
+                            }
                         </div>
                         <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
                             AI-powered resume optimization platform. Build, score, and improve your resume to land your dream job faster.

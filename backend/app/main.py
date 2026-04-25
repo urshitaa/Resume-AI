@@ -105,6 +105,7 @@ def create_app() -> FastAPI:
     from app.routers.ats import router as ats_router
     from app.routers.chat import router as chat_router
     from app.routers.history import router as history_router
+    from app.routers.testimonial import router as testimonial_router
 
     app.include_router(auth_router)
     app.include_router(resume_router)
@@ -112,6 +113,7 @@ def create_app() -> FastAPI:
     app.include_router(ats_router)
     app.include_router(chat_router)
     app.include_router(history_router)
+    app.include_router(testimonial_router)
 
     return app
 
