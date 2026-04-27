@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { FileText, MessageSquare, BarChart3, BotMessageSquare, History, Sun, Moon, Menu, X, LogIn, UserPlus, HelpCircle, LogOut } from "lucide-react";
+import { FileText, MessageSquare, BarChart3, BotMessageSquare, History, Sun, Moon, Menu, X, LogIn, UserPlus, HelpCircle, LogOut, Zap } from "lucide-react";
 
 const navItems = [
   { to: "/", label: "Home", icon: BarChart3 },
+  { to: "/features", label: "Features", icon: Zap },
   // { to: "/chat", label: "AI Assistant", icon: MessageSquare },
+  { to: "/dashboard", label: "Resume Analysis", icon: BotMessageSquare },
   { to: "/editor", label: "Resume Editor", icon: FileText },
   { to: "/history", label: "History", icon: History },
-  { to: "/dashboard", label: "Resume Analysis", icon: BotMessageSquare },
   { to: "/faq", label: "FAQ", icon: HelpCircle },
 ];
 

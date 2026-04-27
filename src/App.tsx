@@ -17,6 +17,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 const FaqPage = lazy(() => import("./pages/FaqPage"));
 const UnderConstruction = lazy(() => import("./pages/UnderConstruction"));
+const FeaturesPage = lazy(() => import("./pages/FeaturesPage"));
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/faq" element={<FaqPage />} />
+            <Route path="/features" element={<FeaturesPage />} />
             <Route path="/under-construction" element={<UnderConstruction />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
