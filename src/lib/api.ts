@@ -69,7 +69,7 @@ export interface SimilarJob {
 export interface Testimonial {
   id: number;
   name: string;
-  rating: int;
+  rating: number;
   feedback: string;
   created_at: string;
 }
