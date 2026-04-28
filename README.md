@@ -371,7 +371,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 📞 Support
 
 For questions or support:
-- 📧 Email: 
+- 📧 Email: urshitaachopra@gmail.com, dhirajk22410@gmail.com
 
 
 ---
