@@ -9,18 +9,16 @@ settings = get_settings()
 # ── Engine ────────────────────────────────────────────────────────────────────
 engine = create_engine(
     settings.db_url,
-     pool_pre_ping=True,
-   
-    pool_pre_ping=True,          # Detects stale connections before use
-    pool_recycle=3600,           # Recycle connections every hour
-    pool_size=10,                # Max persistent connections in pool
-    max_overflow=20,             # Extra connections allowed above pool_size
-    echo=settings.debug,         # Log SQL in debug mode
-     connect_args={
+    pool_pre_ping=True,
+    pool_recycle=3600,
+    pool_size=5,
+    max_overflow=10,
+    echo=settings.debug,
+    connect_args={
         "ssl": {
             "ssl_mode": "REQUIRED"
         }
-    },
+    }
 )
 
 # ── Session factory ───────────────────────────────────────────────────────────
