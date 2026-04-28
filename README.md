@@ -300,6 +300,10 @@ Powered by **Sentence-BERT** embeddings:
 
 ---
 
+## Screenshots
+![Resume AI Preview](./assets/abc.png)
+
+
 ## 🤝 Contributing
 
 Contributions are welcome! Here's how you can help:
