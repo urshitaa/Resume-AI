@@ -301,7 +301,7 @@ Powered by **Sentence-BERT** embeddings:
 ---
 
 ## Screenshots
-![Resume AI Preview](./assets/abc.png)
+![Resume AI Preview](./src/assets/abc.png)
 
 
 ## 🤝 Contributing
