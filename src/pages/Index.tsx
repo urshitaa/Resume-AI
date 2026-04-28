@@ -561,7 +561,7 @@ const LandingPage = () => {
 
                       {/* Content Area */}
                       <div className="flex-1 p-6 dark:pl-20 flex flex-col pt-8 dark:pt-8">
-                        <p className="text-foreground dark:text-gray-200 text-base md:text-sm leading-relaxed mb-6 flex-1 font-medium">
+                        <p className="text-foreground  dark:text-gray-200 text-base md:text-sm leading-relaxed mb-6 flex-1 font-medium">
                           {t.feedback}
                         </p>
                         <div className="mt-auto">
