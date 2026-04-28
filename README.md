@@ -371,13 +371,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 📞 Support
 
 For questions or support:
-- 📧 Email: [contact email]
-- 🐦 Twitter: [@urshitaa](https://twitter.com/urshitaa)
-- 💬 Discord: [Discord server link]
-- 📖 Docs: [Documentation link]
+- 📧 Email: 
+
 
 ---
 
-**Made with ❤️ by [Urshitaa](https://github.com/urshitaa)**
+
 
 ⭐ If you find this project helpful, please star it on GitHub!
