@@ -5,8 +5,8 @@ from typing import Generator
 from app.utils.config import get_settings
 
 settings = get_settings()
-
-# ── Engine ────────────────────────────────────────────────────────────────────
+ 
+ # ── Engine ────────────────────────────────────────────────────────────────────
 engine = create_engine(
     settings.db_url,
     pool_pre_ping=True,
@@ -20,7 +20,6 @@ engine = create_engine(
         }
     }
 )
-
 # ── Session factory ───────────────────────────────────────────────────────────
 SessionLocal = sessionmaker(
     bind=engine,
