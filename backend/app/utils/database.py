@@ -7,6 +7,8 @@ from app.utils.config import get_settings
 settings = get_settings()
  
  # ── Engine ────────────────────────────────────────────────────────────────────
+print(" 😂😂😂😂😂😂😂" + settings.db_url)
+
 engine = create_engine(
     settings.db_url,
     pool_pre_ping=True,

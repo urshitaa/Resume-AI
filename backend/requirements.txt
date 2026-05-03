@@ -10,12 +10,7 @@ passlib[bcrypt]
 reportlab
 requests
 google-generativeai
-beautifulsoup4
-lxml
-spacy
 python-multipart
 bcrypt
-sentence-transformers
-boto3
 PyMuPDF
 python-docx

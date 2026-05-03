@@ -1,20 +1,28 @@
 import re
 from typing import Any
+import math
+from collections import Counter
 
-import spacy
-from sentence_transformers import SentenceTransformer, util
- 
 # ---------------------------------------------------------------------------
-# Model loading (module-level, loaded once on startup)
+# Stop words (simple list for basic NLP tasks)
 # ---------------------------------------------------------------------------
-_sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
-
-try:
-    _nlp = spacy.load("en_core_web_sm")
-except OSError:
-    from spacy.cli import download as spacy_download
-    spacy_download("en_core_web_sm")
-    _nlp = spacy.load("en_core_web_sm")
+STOP_WORDS = {
+    "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "aren't",
+    "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "can't",
+    "cannot", "could", "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down",
+    "during", "each", "few", "for", "from", "further", "had", "hadn't", "has", "hasn't", "have", "haven't",
+    "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself",
+    "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's",
+    "its", "itself", "let's", "me", "more", "most", "mustn't", "my", "myself", "no", "nor", "not", "of",
+    "off", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own",
+    "same", "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "so", "some", "such",
+    "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's",
+    "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too",
+    "under", "until", "up", "very", "was", "wasn't", "we", "we'd", "we'll", "we're", "we've", "were",
+    "weren't", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's",
+    "whom", "why", "why's", "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", "you're",
+    "you've", "your", "yours", "yourself", "yourselves"
+}
 
 # ---------------------------------------------------------------------------
 # Curated skill taxonomy (extend as needed)
@@ -65,36 +73,47 @@ _FORMAT_POSITIVE = [
 # Individual scoring components
 # ---------------------------------------------------------------------------
 
+def _get_tf(text: str) -> dict[str, float]:
+    tokens = [t for t in re.split(r'\W+', text.lower()) if t and t not in STOP_WORDS]
+    count = Counter(tokens)
+    total = sum(count.values())
+    if not total:
+        return {}
+    return {k: v / total for k, v in count.items()}
+
 def _score_semantic(resume_text: str, job_text: str) -> float:
-    """Sentence-BERT cosine similarity → 0-100."""
-    emb_r = _sbert_model.encode(resume_text, convert_to_tensor=True)
-    emb_j = _sbert_model.encode(job_text, convert_to_tensor=True)
-    similarity = float(util.cos_sim(emb_r, emb_j)[0][0])
-    # cosine similarity is in [-1, 1]; clamp and scale to [0, 100]
+    """Lightweight TF-style cosine similarity → 0-100."""
+    tf_r = _get_tf(resume_text)
+    tf_j = _get_tf(job_text)
+    
+    intersection = set(tf_r.keys()) & set(tf_j.keys())
+    if not intersection:
+        return 0.0
+        
+    dot_product = sum(tf_r[term] * tf_j[term] for term in intersection)
+    mag_r = math.sqrt(sum(val**2 for val in tf_r.values()))
+    mag_j = math.sqrt(sum(val**2 for val in tf_j.values()))
+    
+    if mag_r == 0 or mag_j == 0:
+        return 0.0
+    
+    similarity = dot_product / (mag_r * mag_j)
     return round(max(0.0, min(similarity, 1.0)) * 100, 2)
 
 
 def _extract_skills(text: str) -> set[str]:
-    """Extract skills via spaCy NER + known-skill vocabulary lookup."""
-    doc = _nlp(text.lower())
-
+    """Extract skills via simple regex lookup over known vocabulary."""
     found: set[str] = set()
-
-    # Named entities that look like skills/orgs/products
-    for ent in doc.ents:
-        token = ent.text.lower().strip()
-        if token in KNOWN_SKILLS:
-            found.add(token)
-
-    # Vocabulary scan (unigram + bigram)
-    tokens = [t.text.lower() for t in doc if not t.is_space]
-    for i, tok in enumerate(tokens):
-        if tok in KNOWN_SKILLS:
-            found.add(tok)
-        if i < len(tokens) - 1:
-            bigram = f"{tok} {tokens[i + 1]}"
-            if bigram in KNOWN_SKILLS:
-                found.add(bigram)
+    text_lower = text.lower()
+    
+    for skill in KNOWN_SKILLS:
+        # Avoid word boundaries (\b) because some skills contain non-word characters like C++, C#
+        # Use negative lookarounds to ensure it's not surrounded by alphanumeric characters
+        escaped_skill = re.escape(skill)
+        pattern = r'(?<![a-zA-Z0-9])' + escaped_skill + r'(?![a-zA-Z0-9])'
+        
+        if re.search(pattern, text_lower):
+            found.add(skill)
 
     return found
 
@@ -117,10 +136,9 @@ def _score_skills(resume_text: str, job_text: str) -> tuple[float, list[str], li
 def _score_keywords(resume_text: str, job_text: str) -> tuple[float, list[str]]:
     """Simple TF-style keyword overlap on meaningful tokens → 0-100."""
     def _keywords(text: str) -> set[str]:
-        doc = _nlp(text.lower())
         return {
-            t.lemma_ for t in doc
-            if not t.is_stop and not t.is_punct and not t.is_space and len(t.text) > 2
+            t for t in re.split(r'\W+', text.lower())
+            if t and t not in STOP_WORDS and len(t) > 2
         }
 
     resume_kw = _keywords(resume_text)
