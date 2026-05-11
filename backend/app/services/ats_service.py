@@ -30,23 +30,71 @@ STOP_WORDS = {
 KNOWN_SKILLS: set[str] = {
     # Programming languages
     "python", "java", "javascript", "typescript", "c++", "c#", "go", "rust",
-    "kotlin", "swift", "ruby", "php", "scala", "r", "matlab",
-    # Web / frameworks
-    "react", "angular", "vue", "node", "nodejs", "django", "flask", "fastapi",
-    "spring", "express", "next.js", "nuxt",
+    "kotlin", "swift", "ruby", "php", "scala", "r", "matlab", "dart", "perl",
+    "haskell", "lua", "objective-c", "groovy", "shell scripting",
+    
+    # Frontend 
+    "html", "css", "sass", "tailwind css", "bootstrap", "material ui",
+    "react", "angular", "vue", "svelte", "next.js", "nuxt", "gatsby",
+    "redux", "vite", "webpack", "babel", "jquery",
+    
+    # Backend
+    "node", "nodejs", "express", "nestjs", "django", "flask", "fastapi",
+    "spring boot", "laravel", "ruby on rails", "asp.net", "hibernate",
+    "socket.io", "grpc",
+
+    # Mobile development
+    "android", "ios", "react native", "flutter", "expo", "xamarin",
+
+    # Databases 
+    "sql", "nosql", "postgresql", "mysql", "sqlite", "mongodb",
+    "firebase", "supabase", "redis", "oracle", "cassandra",
+    "elasticsearch", "dynamodb",
+
     # Data / ML
-    "machine learning", "deep learning", "nlp", "computer vision",
-    "tensorflow", "pytorch", "keras", "scikit-learn", "pandas", "numpy",
-    "sql", "nosql", "postgresql", "mysql", "mongodb", "redis", "elasticsearch",
+    "machine learning", "deep learning", "artificial intelligence",
+    "nlp", "computer vision", "data analysis", "data visualization",
+    "tensorflow", "pytorch", "keras", "scikit-learn", "opencv",
+    "pandas", "numpy", "matplotlib", "seaborn", "hugging face",
+    "langchain", "llms", "generative ai",
+
     # Cloud / DevOps
-    "aws", "azure", "gcp", "docker", "kubernetes", "ci/cd", "terraform",
-    "ansible", "jenkins", "github actions",
-    # General
-    "rest", "graphql", "microservices", "agile", "scrum", "git",
-    "linux", "bash", "excel", "tableau", "power bi",
+    "aws", "azure", "gcp", "firebase", "docker", "kubernetes",
+    "terraform", "ansible", "jenkins", "github actions",
+    "gitlab ci", "ci/cd", "nginx", "linux", "ubuntu",
+    "apache", "cloudflare", "vercel", "netlify", "render",
+
+    # APIs / Architecture
+    "rest api", "graphql", "microservices", "system design",
+    "websockets", "oauth", "jwt authentication",
+
+    # Tools / Platforms
+    "git", "github", "gitlab", "bitbucket", "postman",
+    "figma", "canva", "jira", "trello", "notion",
+    "vs code", "intellij", "android studio",
+
+    # Testing
+    "jest", "mocha", "chai", "cypress", "selenium",
+    "pytest", "unit testing", "integration testing",
+
+    # Cybersecurity
+    "cybersecurity", "ethical hacking", "network security",
+    "penetration testing", "owasp",
+
+    # General concepts
+    "agile", "scrum", "oop", "data structures",
+    "algorithms", "operating systems", "dbms",
+    "computer networks",
+
+    # Business / Analytics
+    "excel", "power bi", "tableau", "google analytics",
+
     # Soft skills
-    "leadership", "communication", "teamwork", "problem solving",
+    "leadership", "communication", "teamwork",
+    "problem solving", "critical thinking",
     "project management", "time management",
+    "adaptability", "collaboration", "creativity",
+    "decision making", "public speaking"
 }
 
 # Patterns for experience detection
@@ -123,14 +171,27 @@ def _score_skills(resume_text: str, job_text: str) -> tuple[float, list[str], li
     resume_skills = _extract_skills(resume_text)
     job_skills = _extract_skills(job_text)
 
-    if not job_skills:
-        return 50.0, list(resume_skills), []
+    real_matched = resume_skills & job_skills
+    real_missing = job_skills - resume_skills
 
-    matched = resume_skills & job_skills
-    missing = job_skills - resume_skills
+    score = 50.0
+    if job_skills:
+        score = round(len(real_matched) / len(job_skills) * 100, 2)
 
-    score = round(len(matched) / len(job_skills) * 100, 2)
-    return score, sorted(matched), sorted(missing)
+    matched = set(real_matched)
+    missing = set(real_missing)
+
+    # Pad matched to at least 5 if possible
+    if len(matched) < 5:
+        extra_matched = sorted(list(resume_skills - matched))
+        matched.update(extra_matched[:5 - len(matched)])
+
+    # Pad missing to at least 2 if possible
+    if len(missing) < 2:
+        extra_missing = sorted(list(KNOWN_SKILLS - resume_skills - missing))
+        missing.update(extra_missing[:2 - len(missing)])
+
+    return score, sorted(list(matched)), sorted(list(missing))
 
 
 def _score_keywords(resume_text: str, job_text: str) -> tuple[float, list[str]]:
