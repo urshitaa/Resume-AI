@@ -13,4 +13,5 @@ google-generativeai
 python-multipart
 bcrypt
 PyMuPDF
-python-docx
+python-docx
+bs4
