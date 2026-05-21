@@ -87,7 +87,7 @@ Resume-AI/
 
 ### Prerequisites
 - **Node.js** 18+ & npm/bun
-- **Python** 3.9+
+- **Python** 3.11
 - **MySQL** 8.0+
 - **Git**
 

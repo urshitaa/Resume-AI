@@ -24,7 +24,7 @@ import step4Img from "@/assets/4th.png";
 import lightstep1Img from "@/assets/light-1.png";
 import lightstep2Img from "@/assets/light-2.png";
 import lightstep3Img from "@/assets/light-3.png";
-import lightstep4Img from "@/assets/light-45.png";
+import lightstep4Img from "@/assets/light-4.png";
 
 import Pricing from "./Pricing";
 
