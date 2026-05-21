@@ -1,7 +1,9 @@
 {
-    "functions": {
-        "backend/**/*.py": {
-            "runtime": "@vercel/python@4.0.0"
-        }
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
+  ]
 }
