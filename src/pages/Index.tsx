@@ -21,9 +21,9 @@ import step1Img from "@/assets/1st.png";
 import step2Img from "@/assets/2nd.png";
 import step3Img from "@/assets/3rd.png";
 import step4Img from "@/assets/4th.png";
-import lightstep1Img from "@/assets/light-1.png";
-import lightstep2Img from "@/assets/light-2.png";
-import lightstep3Img from "@/assets/light-3.png";
+import lightstep1Img from "@/assets/Light-1.png";
+import lightstep2Img from "@/assets/Light-2.png";
+import lightstep3Img from "@/assets/Light-3.png";
 import lightstep4Img from "@/assets/light-45.png";
 
 import Pricing from "./Pricing";
