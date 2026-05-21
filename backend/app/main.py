@@ -73,6 +73,7 @@ def create_app() -> FastAPI:
         allow_origins=[
             "http://localhost:8080",
             "http://127.0.0.1:8080",
+            "https://resume-ai-53gn.vercel.app",
         ],
         allow_credentials=True,
         allow_methods=["*"],
