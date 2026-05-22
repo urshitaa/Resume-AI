@@ -73,7 +73,6 @@ def create_app() -> FastAPI:
         allow_origins=[
             "https://resume-ai-53gn.vercel.app",   
         ],
-        allow_origin_regex=r"https://.*resume-ai-53gn*\.vercel\.app",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
