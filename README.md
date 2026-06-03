@@ -2,7 +2,7 @@
 
 > **AI-Powered Resume Builder, Job Matcher, and Career Assistant**
 
-An intelligent platform that helps users create, optimize, and match their resumes with job opportunities using advanced AI capabilities.
+An intelligent platform that helps the users create, optimize, and match their resumes with job opportunities using advanced AI capabilities.
 
 ---
 
